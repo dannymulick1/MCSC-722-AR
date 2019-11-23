@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/GDP1-2019F" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MSCS-Project" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gdp1-proj" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/sceneform-android-sdk" vcs="Git" />
+  </component>
+</project>

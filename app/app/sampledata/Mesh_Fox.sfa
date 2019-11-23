@@ -1,0 +1,50 @@
+{
+  materials: [
+    {
+      name: 'lambert2SG',
+      parameters: [
+        {
+          baseColor: 'Tex_Fox',
+        },
+        {
+          baseColorTint: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/Mesh_Fox.obj',
+    name: 'Mesh_Fox',
+    recenter: 'root',
+    scale: 0.02,
+  },
+  samplers: [
+    {
+      file: 'sampledata\\Tex_Fox.png',
+      name: 'Tex_Fox',
+      pipeline_name: 'Tex_Fox.png',
+    },
+  ],
+  version: '0.54:2',
+}
