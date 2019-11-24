@@ -37,7 +37,7 @@
     file: 'sampledata/Mesh_Fox.obj',
     name: 'Mesh_Fox',
     recenter: 'root',
-    scale: 0.02,
+    scale: 0.015,
   },
   samplers: [
     {
