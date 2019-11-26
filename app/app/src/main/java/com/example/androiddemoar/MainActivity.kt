@@ -1,6 +1,8 @@
 package com.example.androiddemoar
 
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
+import android.graphics.Path
 import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.view.View
 import com.google.ar.core.Anchor
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
@@ -69,12 +72,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun addNodeToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
         val anchorNode = AnchorNode(createAnchor)
+        val rotatingNode = RotatingNode()
+
         val transformableNode = TransformableNode(fragment.transformationSystem)
-        transformableNode.renderable = renderable
-        transformableNode.setParent(anchorNode)
+
+        rotatingNode.renderable = renderable
+
+        rotatingNode.addChild(transformableNode)
+        rotatingNode.setParent(anchorNode)
+
         fragment.arSceneView.scene.addChild(anchorNode)
         transformableNode.select()
     }
+
+
+    //        Animations
+//            https://developer.android.com/guide/topics/graphics/prop-animation.html#object-animator
+
 
     private fun getScreenCenter(): android.graphics.Point {
         val vw = findViewById<View>(android.R.id.content)
