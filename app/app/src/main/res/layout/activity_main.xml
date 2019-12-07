@@ -37,7 +37,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/move_fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_compass" />
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/actFab"

@@ -10,10 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.LinearInterpolator
 import com.google.ar.core.Anchor
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.math.Vector3
+import com.google.ar.sceneform.math.Vector3Evaluator
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
@@ -42,7 +44,22 @@ class MainActivity : AppCompatActivity() {
             addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
 //            fragment.arSceneView.scene.removeChild(pin)
         }
+        actFab.setOnClickListener{ view ->
+            val objectAnimator = ObjectAnimator()
+            objectAnimator.setAutoCancel(true)
+            objectAnimator.target = fox
 
+            objectAnimator.setObjectValues(fox.worldPosition,
+                pin.worldPosition)
+            objectAnimator.setPropertyName("worldPosition")
+            val v3Eval = Vector3Evaluator()
+            objectAnimator.setEvaluator(v3Eval)
+            val inter = LinearInterpolator()
+            objectAnimator.interpolator = inter
+            objectAnimator.duration = 2000
+            objectAnimator.start()
+
+        }
     }
 
     private fun addObject(parse: Uri) {
