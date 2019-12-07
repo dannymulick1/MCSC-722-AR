@@ -6,7 +6,6 @@ import android.graphics.Path
 import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +23,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var fragment: ArFragment
+    lateinit var fox: TransformableNode
+    lateinit var pin: TransformableNode
+    var nodes = arrayOfNulls<TransformableNode>(2)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
             addObject(Uri.parse("Mesh_Fox.sfb"))
+        }
+        moveFab.setOnClickListener{ view ->
+            addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
+//            fragment.arSceneView.scene.removeChild(pin)
         }
     }
 
@@ -58,7 +64,13 @@ class MainActivity : AppCompatActivity() {
             .setSource(fragment.context, model)
             .build()
             .thenAccept {
-                addNodeToScene(fragment, createAnchor, it)
+                if (model == Uri.parse("Mesh_Fox.sfb")){
+                    addFoxToScene(fragment, createAnchor, it)
+                }
+                else{
+                    addPinToScene(fragment, createAnchor, it)
+                }
+
             }
             .exceptionally {
                 val builder = AlertDialog.Builder(this)
@@ -70,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun addNodeToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
+    private fun addFoxToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
 //        val anchorNode = AnchorNode(createAnchor)
 //        val rotatingNode = RotatingNode()
 //
@@ -84,25 +96,41 @@ class MainActivity : AppCompatActivity() {
 //        fragment.arSceneView.scene.addChild(anchorNode)
 //        transformableNode.select()
         val anchorNode = AnchorNode(createAnchor)
-        val transformableNode = TransformableNode(fragment.transformationSystem)
-        transformableNode.renderable = renderable
-        transformableNode.setParent(anchorNode)
+        this.fox = TransformableNode(fragment.transformationSystem)
+        fox.renderable = renderable
+        fox.setParent(anchorNode)
         fragment.arSceneView.scene.addChild(anchorNode)
-        transformableNode.select()
+        fox.select()
+        nodes[0] = fox
     }
 
-
-    //        Animations
-//            https://developer.android.com/guide/topics/graphics/prop-animation.html#object-animator
+    private fun addPinToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
+//        val anchorNode = AnchorNode(createAnchor)
+//        val rotatingNode = RotatingNode()
+//
+//        val transformableNode = TransformableNode(fragment.transformationSystem)
+//
+//        rotatingNode.renderable = renderable
+//
+//        rotatingNode.addChild(transformableNode)
+//        rotatingNode.setParent(anchorNode)
+//
+//        fragment.arSceneView.scene.addChild(anchorNode)
+//        transformableNode.select()
+        val anchorNode = AnchorNode(createAnchor)
+        this.pin = TransformableNode(fragment.transformationSystem)
+        pin.renderable = renderable
+        pin.setParent(anchorNode)
+        fragment.arSceneView.scene.addChild(anchorNode)
+        pin.select()
+        nodes[1] = pin
+    }
 
 
     private fun getScreenCenter(): android.graphics.Point {
         val vw = findViewById<View>(android.R.id.content)
         return Point(vw.width / 2, vw.height / 2)
     }
-
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

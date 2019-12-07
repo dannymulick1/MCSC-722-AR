@@ -59,3 +59,8 @@ sceneform.asset('sampledata/Mesh_Fox.obj',
         'default',
         'sampledata/Mesh_Fox.sfa',
         'src/main/assets/Mesh_Fox')
+
+sceneform.asset('sampledata/CHAHIN_BOWLING_PIN.obj',
+        'default',
+        'sampledata/CHAHIN_BOWLING_PIN.sfa',
+        'src/main/assets/CHAHIN_BOWLING_PIN')
