@@ -71,16 +71,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addNodeToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
+//        val anchorNode = AnchorNode(createAnchor)
+//        val rotatingNode = RotatingNode()
+//
+//        val transformableNode = TransformableNode(fragment.transformationSystem)
+//
+//        rotatingNode.renderable = renderable
+//
+//        rotatingNode.addChild(transformableNode)
+//        rotatingNode.setParent(anchorNode)
+//
+//        fragment.arSceneView.scene.addChild(anchorNode)
+//        transformableNode.select()
         val anchorNode = AnchorNode(createAnchor)
-        val rotatingNode = RotatingNode()
-
         val transformableNode = TransformableNode(fragment.transformationSystem)
-
-        rotatingNode.renderable = renderable
-
-        rotatingNode.addChild(transformableNode)
-        rotatingNode.setParent(anchorNode)
-
+        transformableNode.renderable = renderable
+        transformableNode.setParent(anchorNode)
         fragment.arSceneView.scene.addChild(anchorNode)
         transformableNode.select()
     }
