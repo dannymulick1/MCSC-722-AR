@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
 //            fragment.arSceneView.scene.removeChild(pin)
         }
+
     }
 
     private fun addObject(parse: Uri) {

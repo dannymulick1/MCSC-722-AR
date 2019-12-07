@@ -39,6 +39,14 @@
         android:layout_marginBottom="@dimen/move_fab_margin"
         app:srcCompat="@android:drawable/ic_menu_compass" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/actFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_compass" />
+
     <fragment android:name="com.google.ar.sceneform.ux.ArFragment"
         android:id="@+id/ux_fragment"
         android:layout_width="match_parent"
