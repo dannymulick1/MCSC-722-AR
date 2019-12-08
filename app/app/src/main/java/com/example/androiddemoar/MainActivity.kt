@@ -10,10 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
+import androidx.core.animation.doOnEnd
 import com.google.ar.core.Anchor
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.math.Quaternion
+import com.google.ar.sceneform.math.QuaternionEvaluator
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.math.Vector3Evaluator
 import com.google.ar.sceneform.rendering.ModelRenderable
@@ -21,6 +25,7 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,16 +53,38 @@ class MainActivity : AppCompatActivity() {
             val objectAnimator = ObjectAnimator()
             objectAnimator.setAutoCancel(true)
             objectAnimator.target = fox
-
-            objectAnimator.setObjectValues(fox.worldPosition,
+//            var rotation = Quaternion.lookRotation(fox.worldPosition,
+//                pin.worldPosition)
+            val direction = Vector3.subtract(fox.worldPosition,
                 pin.worldPosition)
-            objectAnimator.setPropertyName("worldPosition")
-            val v3Eval = Vector3Evaluator()
+            var rotation = Quaternion.lookRotation(direction, Vector3.up())
+            objectAnimator.setObjectValues(rotation)
+            objectAnimator.setPropertyName("worldRotation")
+            val v3Eval = QuaternionEvaluator()
             objectAnimator.setEvaluator(v3Eval)
             val inter = LinearInterpolator()
             objectAnimator.interpolator = inter
             objectAnimator.duration = 2000
             objectAnimator.start()
+            objectAnimator.doOnEnd {
+                val objectAnimator = ObjectAnimator()
+                objectAnimator.setAutoCancel(true)
+                objectAnimator.target = fox
+
+                objectAnimator.setObjectValues(fox.worldPosition,
+                    pin.worldPosition)
+                objectAnimator.setPropertyName("worldPosition")
+                val v3Eval = Vector3Evaluator()
+                objectAnimator.setEvaluator(v3Eval)
+                val inter = LinearInterpolator()
+                objectAnimator.interpolator = inter
+                objectAnimator.duration = 2000
+                objectAnimator.start()
+
+                objectAnimator.doOnEnd {
+
+                }
+            }
 
         }
     }
