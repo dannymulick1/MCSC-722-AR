@@ -2,7 +2,6 @@ package com.example.androiddemoar
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.graphics.Path
 import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
@@ -16,6 +15,7 @@ import androidx.core.animation.doOnEnd
 import com.google.ar.core.Anchor
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.Camera
 import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.QuaternionEvaluator
 import com.google.ar.sceneform.math.Vector3
@@ -25,7 +25,6 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var fox: TransformableNode
     lateinit var pin: TransformableNode
     var nodes = arrayOfNulls<TransformableNode>(2)
+    lateinit var camera: Camera
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,21 +40,24 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fragment = supportFragmentManager.findFragmentById(R.id.ux_fragment) as ArFragment
-
+        camera = fragment.arSceneView.scene.camera
 
         fab.setOnClickListener { view ->
+            fragment.arSceneView.scene.removeChild(fox)
+            fox.renderable = null
             addObject(Uri.parse("Mesh_Fox.sfb"))
         }
         moveFab.setOnClickListener{ view ->
+            fragment.arSceneView.scene.removeChild(pin)
+            pin.renderable = null
             addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
-//            fragment.arSceneView.scene.removeChild(pin)
         }
         actFab.setOnClickListener{ view ->
             val objectAnimator = ObjectAnimator()
             objectAnimator.setAutoCancel(true)
             objectAnimator.target = fox
-//            var rotation = Quaternion.lookRotation(fox.worldPosition,
-//                pin.worldPosition)
+            // I use the direction method in order to flatten out the
+            //  rotation angle, makes it so it only rotates on the y axis
             val direction = Vector3.subtract(fox.worldPosition,
                 pin.worldPosition)
             var rotation = Quaternion.lookRotation(direction, Vector3.up())
@@ -82,7 +85,40 @@ class MainActivity : AppCompatActivity() {
                 objectAnimator.start()
 
                 objectAnimator.doOnEnd {
+                    fragment.arSceneView.scene.removeChild(pin)
+                    pin.renderable = null
+                    val objectAnimator = ObjectAnimator()
+                    objectAnimator.setAutoCancel(true)
+                    objectAnimator.target = fox
+                    val direction = Vector3.subtract(fox.worldPosition,
+                        camera.worldPosition)
+                    var rotation = Quaternion.lookRotation(direction, Vector3.up())
+                    objectAnimator.setObjectValues(rotation)
+                    objectAnimator.setPropertyName("worldRotation")
+                    val v3Eval = QuaternionEvaluator()
+                    objectAnimator.setEvaluator(v3Eval)
+                    val inter = LinearInterpolator()
+                    objectAnimator.interpolator = inter
+                    objectAnimator.duration = 2000
+                    objectAnimator.start()
+                    objectAnimator.doOnEnd {
 
+                        val objectAnimator = ObjectAnimator()
+                        objectAnimator.setAutoCancel(true)
+                        objectAnimator.target = fox
+                        objectAnimator.setObjectValues(
+                            fox.worldPosition,
+                            Vector3(camera.worldPosition.x, fox.worldPosition.y,
+                            camera.worldPosition.z)
+                        )
+                        objectAnimator.setPropertyName("worldPosition")
+                        val v3Eval = Vector3Evaluator()
+                        objectAnimator.setEvaluator(v3Eval)
+                        val inter = LinearInterpolator()
+                        objectAnimator.interpolator = inter
+                        objectAnimator.duration = 2000
+                        objectAnimator.start()
+                    }
                 }
             }
 
