@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var fragment: ArFragment
     lateinit var fox: TransformableNode
     lateinit var pin: TransformableNode
-    var nodes = arrayOfNulls<TransformableNode>(2)
     lateinit var camera: Camera
+    var duration = 1000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 fragment.arSceneView.scene.removeChild(pin)
                 pin.renderable = null
             }
-            addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
+            addObject(Uri.parse("Rat_01.sfb"))
         }
         actFab.setOnClickListener{
             var objectAnimator = ObjectAnimator()
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             objectAnimator.setEvaluator(quaEval)
             var inter = LinearInterpolator()
             objectAnimator.interpolator = inter
-            objectAnimator.duration = 2000
+            objectAnimator.duration = duration
             objectAnimator.start()
             objectAnimator.doOnEnd {
                 objectAnimator = ObjectAnimator()
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 objectAnimator.setEvaluator(v3Eval)
                 inter = LinearInterpolator()
                 objectAnimator.interpolator = inter
-                objectAnimator.duration = 2000
+                objectAnimator.duration = duration
                 objectAnimator.start()
 
                 objectAnimator.doOnEnd {
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                     objectAnimator.setEvaluator(quaEval)
                     inter = LinearInterpolator()
                     objectAnimator.interpolator = inter
-                    objectAnimator.duration = 2000
+                    objectAnimator.duration = duration
                     objectAnimator.start()
                     objectAnimator.doOnEnd {
 
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                         objectAnimator.setEvaluator(v3Eval)
                         inter = LinearInterpolator()
                         objectAnimator.interpolator = inter
-                        objectAnimator.duration = 2000
+                        objectAnimator.duration = duration
                         objectAnimator.start()
                     }
                 }
@@ -171,47 +171,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addFoxToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
-//        val anchorNode = AnchorNode(createAnchor)
-//        val rotatingNode = RotatingNode()
-//
-//        val transformableNode = TransformableNode(fragment.transformationSystem)
-//
-//        rotatingNode.renderable = renderable
-//
-//        rotatingNode.addChild(transformableNode)
-//        rotatingNode.setParent(anchorNode)
-//
-//        fragment.arSceneView.scene.addChild(anchorNode)
-//        transformableNode.select()
         val anchorNode = AnchorNode(createAnchor)
         this.fox = TransformableNode(fragment.transformationSystem)
         fox.renderable = renderable
         fox.setParent(anchorNode)
         fragment.arSceneView.scene.addChild(anchorNode)
         fox.select()
-        nodes[0] = fox
     }
 
     private fun addPinToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
-//        val anchorNode = AnchorNode(createAnchor)
-//        val rotatingNode = RotatingNode()
-//
-//        val transformableNode = TransformableNode(fragment.transformationSystem)
-//
-//        rotatingNode.renderable = renderable
-//
-//        rotatingNode.addChild(transformableNode)
-//        rotatingNode.setParent(anchorNode)
-//
-//        fragment.arSceneView.scene.addChild(anchorNode)
-//        transformableNode.select()
         val anchorNode = AnchorNode(createAnchor)
         this.pin = TransformableNode(fragment.transformationSystem)
         pin.renderable = renderable
         pin.setParent(anchorNode)
         fragment.arSceneView.scene.addChild(anchorNode)
         pin.select()
-        nodes[1] = pin
     }
 
 

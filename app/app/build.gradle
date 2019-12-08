@@ -64,3 +64,8 @@ sceneform.asset('sampledata/CHAHIN_BOWLING_PIN.obj',
         'default',
         'sampledata/CHAHIN_BOWLING_PIN.sfa',
         'src/main/assets/CHAHIN_BOWLING_PIN')
+
+sceneform.asset('sampledata/Rat_01.obj',
+        'default',
+        'sampledata/Rat_01.sfa',
+        'src/main/assets/Rat_01')
