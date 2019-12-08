@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var fragment: ArFragment
     lateinit var fox: TransformableNode
-    lateinit var pin: TransformableNode
+    lateinit var rat: TransformableNode
     lateinit var camera: Camera
     var duration = 1000L
 
@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
             addObject(Uri.parse("Mesh_Fox.sfb"))
         }
         moveFab.setOnClickListener{
-            if (::pin.isInitialized){
-                fragment.arSceneView.scene.removeChild(pin)
-                pin.renderable = null
+            if (::rat.isInitialized){
+                fragment.arSceneView.scene.removeChild(rat)
+                rat.renderable = null
             }
             addObject(Uri.parse("Rat_01.sfb"))
         }
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             // I use the direction method in order to flatten out the
             //  rotation angle, makes it so it only rotates on the y axis
             var direction = Vector3.subtract(fox.worldPosition,
-                pin.worldPosition)
+                rat.worldPosition)
             var rotation = Quaternion.lookRotation(direction, Vector3.up())
             objectAnimator.setObjectValues(rotation)
             objectAnimator.setPropertyName("worldRotation")
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 objectAnimator.target = fox
 
                 objectAnimator.setObjectValues(fox.worldPosition,
-                    pin.worldPosition)
+                    rat.worldPosition)
                 objectAnimator.setPropertyName("worldPosition")
                 var v3Eval = Vector3Evaluator()
                 objectAnimator.setEvaluator(v3Eval)
@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
                 objectAnimator.start()
 
                 objectAnimator.doOnEnd {
-                    fragment.arSceneView.scene.removeChild(pin)
-                    pin.renderable = null
+                    fragment.arSceneView.scene.removeChild(rat)
+                    rat.renderable = null
                     objectAnimator = ObjectAnimator()
                     objectAnimator.setAutoCancel(true)
                     objectAnimator.target = fox
@@ -181,11 +181,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun addPinToScene(fragment: ArFragment, createAnchor: Anchor, renderable: ModelRenderable) {
         val anchorNode = AnchorNode(createAnchor)
-        this.pin = TransformableNode(fragment.transformationSystem)
-        pin.renderable = renderable
-        pin.setParent(anchorNode)
+        this.rat = TransformableNode(fragment.transformationSystem)
+        rat.renderable = renderable
+        rat.setParent(anchorNode)
         fragment.arSceneView.scene.addChild(anchorNode)
-        pin.select()
+        rat.select()
     }
 
 
