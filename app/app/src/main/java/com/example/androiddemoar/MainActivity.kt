@@ -57,33 +57,33 @@ class MainActivity : AppCompatActivity() {
             addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
         }
         actFab.setOnClickListener{
-            val objectAnimator = ObjectAnimator()
+            var objectAnimator = ObjectAnimator()
             objectAnimator.setAutoCancel(true)
             objectAnimator.target = fox
             // I use the direction method in order to flatten out the
             //  rotation angle, makes it so it only rotates on the y axis
-            val direction = Vector3.subtract(fox.worldPosition,
+            var direction = Vector3.subtract(fox.worldPosition,
                 pin.worldPosition)
             var rotation = Quaternion.lookRotation(direction, Vector3.up())
             objectAnimator.setObjectValues(rotation)
             objectAnimator.setPropertyName("worldRotation")
-            val v3Eval = QuaternionEvaluator()
-            objectAnimator.setEvaluator(v3Eval)
-            val inter = LinearInterpolator()
+            var quaEval = QuaternionEvaluator()
+            objectAnimator.setEvaluator(quaEval)
+            var inter = LinearInterpolator()
             objectAnimator.interpolator = inter
             objectAnimator.duration = 2000
             objectAnimator.start()
             objectAnimator.doOnEnd {
-                val objectAnimator = ObjectAnimator()
+                objectAnimator = ObjectAnimator()
                 objectAnimator.setAutoCancel(true)
                 objectAnimator.target = fox
 
                 objectAnimator.setObjectValues(fox.worldPosition,
                     pin.worldPosition)
                 objectAnimator.setPropertyName("worldPosition")
-                val v3Eval = Vector3Evaluator()
+                var v3Eval = Vector3Evaluator()
                 objectAnimator.setEvaluator(v3Eval)
-                val inter = LinearInterpolator()
+                inter = LinearInterpolator()
                 objectAnimator.interpolator = inter
                 objectAnimator.duration = 2000
                 objectAnimator.start()
@@ -91,26 +91,26 @@ class MainActivity : AppCompatActivity() {
                 objectAnimator.doOnEnd {
                     fragment.arSceneView.scene.removeChild(pin)
                     pin.renderable = null
-                    val objectAnimator = ObjectAnimator()
+                    objectAnimator = ObjectAnimator()
                     objectAnimator.setAutoCancel(true)
                     objectAnimator.target = fox
-                    val direction = Vector3.subtract(fox.worldPosition,
+                     direction = Vector3.subtract(fox.worldPosition,
                         camera.worldPosition)
                     // Have to flatten out the y to stop the fox from tilting
                     // And neet to cast to float for vec3's
                     direction.y = 0.toFloat()
-                    var rotation = Quaternion.lookRotation(direction, Vector3.up())
+                     rotation = Quaternion.lookRotation(direction, Vector3.up())
                     objectAnimator.setObjectValues(rotation)
                     objectAnimator.setPropertyName("worldRotation")
-                    val v3Eval = QuaternionEvaluator()
-                    objectAnimator.setEvaluator(v3Eval)
-                    val inter = LinearInterpolator()
+                    quaEval = QuaternionEvaluator()
+                    objectAnimator.setEvaluator(quaEval)
+                    inter = LinearInterpolator()
                     objectAnimator.interpolator = inter
                     objectAnimator.duration = 2000
                     objectAnimator.start()
                     objectAnimator.doOnEnd {
 
-                        val objectAnimator = ObjectAnimator()
+                         objectAnimator = ObjectAnimator()
                         objectAnimator.setAutoCancel(true)
                         objectAnimator.target = fox
                         objectAnimator.setObjectValues(
@@ -119,9 +119,9 @@ class MainActivity : AppCompatActivity() {
                             camera.worldPosition.z)
                         )
                         objectAnimator.setPropertyName("worldPosition")
-                        val v3Eval = Vector3Evaluator()
+                        v3Eval = Vector3Evaluator()
                         objectAnimator.setEvaluator(v3Eval)
-                        val inter = LinearInterpolator()
+                        inter = LinearInterpolator()
                         objectAnimator.interpolator = inter
                         objectAnimator.duration = 2000
                         objectAnimator.start()
@@ -215,7 +215,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getScreenCenter(): android.graphics.Point {
+    private fun getScreenCenter(): Point {
         val vw = findViewById<View>(android.R.id.content)
         return Point(vw.width / 2, vw.height / 2)
     }
