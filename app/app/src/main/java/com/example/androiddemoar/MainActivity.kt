@@ -42,17 +42,21 @@ class MainActivity : AppCompatActivity() {
         fragment = supportFragmentManager.findFragmentById(R.id.ux_fragment) as ArFragment
         camera = fragment.arSceneView.scene.camera
 
-        fab.setOnClickListener { view ->
-            fragment.arSceneView.scene.removeChild(fox)
-            fox.renderable = null
+        fab.setOnClickListener {
+            if (::fox.isInitialized){
+                fragment.arSceneView.scene.removeChild(fox)
+                fox.renderable = null
+            }
             addObject(Uri.parse("Mesh_Fox.sfb"))
         }
-        moveFab.setOnClickListener{ view ->
-            fragment.arSceneView.scene.removeChild(pin)
-            pin.renderable = null
+        moveFab.setOnClickListener{
+            if (::pin.isInitialized){
+                fragment.arSceneView.scene.removeChild(pin)
+                pin.renderable = null
+            }
             addObject(Uri.parse("CHAHIN_BOWLING_PIN.sfb"))
         }
-        actFab.setOnClickListener{ view ->
+        actFab.setOnClickListener{
             val objectAnimator = ObjectAnimator()
             objectAnimator.setAutoCancel(true)
             objectAnimator.target = fox
@@ -92,6 +96,9 @@ class MainActivity : AppCompatActivity() {
                     objectAnimator.target = fox
                     val direction = Vector3.subtract(fox.worldPosition,
                         camera.worldPosition)
+                    // Have to flatten out the y to stop the fox from tilting
+                    // And neet to cast to float for vec3's
+                    direction.y = 0.toFloat()
                     var rotation = Quaternion.lookRotation(direction, Vector3.up())
                     objectAnimator.setObjectValues(rotation)
                     objectAnimator.setPropertyName("worldRotation")
